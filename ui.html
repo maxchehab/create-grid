@@ -1,0 +1,194 @@
+<div "modal">
+<div class="header">
+  <label
+    >Arrange the selected objects in a grid. Choose rows columns and
+    margin.</label
+  >
+</div>
+<div class="content">
+  <form>
+    <table class="inputs">
+      <tr>
+        <td>Rows: <input type="number" id="rows" value="5" min="2" /></td>
+        <td>
+          Margin: <input type="number" id="row-padding" value="50" min="1" />
+        </td>
+      </tr>
+      <tr>
+        <td>Columns: <input type="number" id="columns" value="5" min="2" /></td>
+        <td>
+          Margin: <input type="number" id="column-padding" value="50" min="1" />
+        </td>
+      </tr>
+    </table>
+
+    <div class="row">
+      <button class="submit-button" type="submit" id="create">Create</button>
+      <button class="cancel-button" id="cancel">Cancel</button>
+    </div>
+  </form>
+</div>
+<style rel="stylesheet" type="text/css">
+  @import url("https://rsms.me/inter/inter.css");
+  html {
+    font-family: "Inter", sans-serif;
+  }
+  @supports (font-variation-settings: normal) {
+    html {
+      font-family: "Inter var", sans-serif;
+    }
+  }
+
+  .submit-button {
+    color: rgb(255, 255, 255);
+    background-color: rgb(24, 160, 251);
+  }
+
+  .cancel-button {
+    color: rgb(242, 72, 34);
+    box-shadow: rgb(242, 72, 34) 0px 0px 0px 1px inset;
+    background-color: rgb(255, 255, 255);
+  }
+
+  .inputs .row {
+    justify-content: space-evenly;
+    width: 100%;
+  }
+
+  button {
+    box-sizing: border-box;
+    align-items: center;
+    display: inline-flex;
+    justify-content: center;
+    height: 30px;
+    flex-shrink: 0;
+    margin: 1px 0px;
+    padding: 6px 16px 5px;
+    border: medium none;
+    border-radius: 6px;
+    outline: currentcolor none medium;
+    font-family: "Inter", sans-serif;
+    font-weight: 500;
+    font-size: 11px;
+    line-height: 16px;
+    letter-spacing: 0.01em;
+    opacity: 1;
+  }
+
+  label,
+  td {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    text-decoration: none;
+    color: #333;
+    font-weight: 400;
+    font-size: 11px;
+  }
+  .header {
+    padding: 15px;
+    display: flex;
+    flex-direction: row;
+    background-color: white;
+    border-bottom: 1px solid #dddddd;
+    align-items: center;
+    margin-bottom: 15px;
+  }
+
+  .modal {
+    display: flex;
+    flex-direction: row;
+    margin: 0;
+    padding: 0;
+  }
+
+  .content {
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    justify-items: center;
+  }
+
+  body {
+    margin: 0;
+    padding: 0;
+    font-family: "Inter";
+    text-decoration: none;
+    color: #333;
+    font-weight: 400;
+  }
+
+  .row p:nth-last-child(1),
+  .row button:nth-last-child(1) {
+    margin-left: 15px;
+  }
+
+  .row:nth-last-child(1) {
+    margin-top: 15px;
+  }
+
+  .row {
+    display: flex;
+    justify-content: center;
+  }
+
+  input:hover {
+    color: rgba(0, 0, 0, 0.8);
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 0px 1px inset;
+    border-color: rgba(0, 0, 0, 0.1);
+  }
+  input:active,
+  input:focus {
+    color: rgb(0, 0, 0);
+    box-shadow: rgb(24, 160, 251) 0px 0px 0px 2px inset;
+    border-color: rgba(24, 160, 251);
+  }
+
+  input {
+    padding: 0 8px;
+    width: 50px;
+    color: rgba(0, 0, 0, 0.8);
+    font-family: "Inter", sans-serif;
+    font-weight: 400;
+    font-size: 11px;
+    line-height: 16px;
+    letter-spacing: 0.005em;
+    border: medium none;
+    outline: currentcolor none medium;
+    height: 24px;
+  }
+</style>
+<script>
+  document.getElementById("create").onclick = () => {
+    const rows = parseInt(document.getElementById("rows").value, 10);
+    const columns = parseInt(document.getElementById("columns").value, 10);
+    const rowPadding = parseInt(
+      document.getElementById("row-padding").value,
+      10
+    );
+    const columnPadding = parseInt(
+      document.getElementById("column-padding").value,
+      10
+    );
+    parent.postMessage(
+      {
+        pluginMessage: {
+          type: "create-grid",
+          rows,
+          columns,
+          rowPadding,
+          columnPadding
+        }
+      },
+      "*"
+    );
+  };
+
+  document.getElementById("cancel").onclick = () => {
+    parent.postMessage({ pluginMessage: { type: "cancel" } }, "*");
+  };
+</script>
